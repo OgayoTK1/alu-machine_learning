@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+import numpy as np
+import matplotlib.pyplot as plt
+
+y = np.arange(0, 11) ** 3
+
+# your code here
+plt.plot(y, 'r-')        # 'r' = red, '-' = solid line
+plt.xlim(0, 10)          # forces x-axis to range exactly from 0 to 10 (no default margins)
+plt.show()
