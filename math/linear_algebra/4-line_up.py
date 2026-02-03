@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Module that provides a function for element-wise addition of two arrays.
 """
 
