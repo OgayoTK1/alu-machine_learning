@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Module that provides a function to transpose a NumPy array.
 """
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Module that provides a function for matrix multiplication using NumPy.
 """
 

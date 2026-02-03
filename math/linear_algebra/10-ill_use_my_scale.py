@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Module that provides a function to get the shape of a NumPy array.
 """
 
