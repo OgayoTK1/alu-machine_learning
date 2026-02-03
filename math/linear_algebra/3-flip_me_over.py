@@ -13,4 +13,3 @@ def matrix_transpose(matrix):
         list: A new 2D list representing the transpose of the input matrix.
     """
     return [[row[i] for row in matrix] for i in range(len(matrix[0]))]
-
