@@ -32,12 +32,12 @@ def minor(matrix):
     n = len(matrix)
     m = len(matrix[0])
 
-    if any(len(row) != m for row in matrix) or n != m or n == 0:
+    if any(len(row) != m for row in matrix) or n != m:
         raise ValueError("matrix must be a non-empty square matrix")
 
     def det(mat):
         """Recursive determinant using cofactor expansion along first row."""
-        if not mat:
+        if not mat or not mat[0]:
             return 1
 
         cols = len(mat[0])
@@ -52,9 +52,11 @@ def minor(matrix):
     for i in range(n):
         minor_row = []
         for j in range(n):
-            sub = [[matrix[k][l] for l in range(n) if l != j]
-                   for k in range(n) if k != i]
-            minor_row.append(det(sub))
+            submatrix = [
+                matrix[r][:j] + matrix[r][j + 1:]
+                for r in range(n) if r != i
+            ]
+            minor_row.append(det(submatrix))
         minors.append(minor_row)
 
     return minors
