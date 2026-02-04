@@ -36,14 +36,14 @@ def definiteness(matrix):
     if not isinstance(matrix, np.ndarray):
         raise TypeError("matrix must be a numpy.ndarray")
 
-    if (matrix.ndim != 2 or
-        matrix.shape[0] != matrix.shape[1] or
-        matrix.shape[0] == 0):
+    if matrix.ndim != 2 or matrix.shape[0] != matrix.shape[1]:
+        return None
+
+    if matrix.size == 0:
         return None
 
     eigvals = np.linalg.eigvals(matrix)
 
-    # If significant imaginary part, not real symmetric -> invalid
     if np.any(np.abs(np.imag(eigvals)) > 1e-10):
         return None
 
@@ -61,4 +61,5 @@ def definiteness(matrix):
         return "Positive semi-definite"
     if max_eig < tol:
         return "Negative semi-definite"
+
     return "Indefinite"
