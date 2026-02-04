@@ -3,10 +3,10 @@
 Write a function def definiteness(matrix): that calculates the
 definiteness of a matrix:
 
-* matrix is a numpy.ndarray of shape (n, n) whose definiteness should
-  be calculated
-* If matrix is not a numpy.ndarray, raise a TypeError with the
-  message matrix must be a numpy.ndarray
+* matrix is a numpy.ndarray of shape (n, n) whose definiteness should be
+  calculated
+* If matrix is not a numpy.ndarray, raise a TypeError with the message
+  matrix must be a numpy.ndarray
 * If matrix is not a valid matrix, return None
 * Return: the string Positive definite, Positive semi-definite,
   Negative semi-definite, Negative definite, or Indefinite if the
@@ -15,7 +15,6 @@ definiteness of a matrix:
 * If matrix does not fit any of the above categories, return None
 * You may import numpy as np
 """
-
 
 import numpy as np
 
@@ -32,35 +31,27 @@ def definiteness(matrix):
     Returns:
         str: "Positive definite", "Positive semi-definite",
              "Negative definite", "Negative semi-definite",
-             "Indefinite", or None.
+             "Indefinite", or None if invalid.
     """
     if not isinstance(matrix, np.ndarray):
         raise TypeError("matrix must be a numpy.ndarray")
 
-    if matrix.ndim != 2 or matrix.shape[0] != matrix.shape[1]:
+    if (matrix.ndim != 2 or
+        matrix.shape[0] != matrix.shape[1] or
+        matrix.shape[0] == 0):
         return None
 
-    if matrix.size == 0:
+    if not np.allclose(matrix, matrix.T):
         return None
 
-    eigvals = np.linalg.eigvals(matrix)
+    eigs = np.linalg.eigvalsh(matrix)
 
-    if np.any(np.abs(np.imag(eigvals)) > 1e-10):
-        return None
-
-    real_eigs = np.real(eigvals)
-    min_eig = np.min(real_eigs)
-    max_eig = np.max(real_eigs)
-
-    tol = 1e-10
-
-    if min_eig > tol:
+    if np.all(eigs > 0):
         return "Positive definite"
-    if max_eig < -tol:
-        return "Negative definite"
-    if min_eig > -tol:
+    elif np.all(eigs >= 0):
         return "Positive semi-definite"
-    if max_eig < tol:
+    elif np.all(eigs < 0):
+        return "Negative definite"
+    elif np.all(eigs <= 0):
         return "Negative semi-definite"
-
     return "Indefinite"
