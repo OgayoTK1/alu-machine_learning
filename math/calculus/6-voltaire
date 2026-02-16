@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""
+6. It is difficult to free fools from the chains they revere
+
+Mandatory task demonstrating the chain rule for derivatives numerically.
+
+Voltaire's quote is a playful pun: the "chains" refer to the chain rule,
+a fundamental (and often revered) tool in calculus for differentiating
+composite functions f(g(x)).
+
+The chain rule states:
+d/dx [f(g(x))] = f'(g(x)) × g'(x)
+
+This module provides two numerical approximations of the derivative of a
+composite function f ∘ g at a point x > 0:
+
+- direct_composite_derivative: Approximates the derivative directly on the
+  composite function (no explicit use of the chain rule).
+
+- chain_rule_derivative: Approximates the derivative using the chain rule
+  by separately computing numerical derivatives of the outer function f
+  (evaluated at g(x)) and the inner function g (evaluated at x).
+
+Both methods use the central difference formula for higher accuracy.
+For sufficiently small h, the two results should be very close,
+computationally verifying the chain rule.
+"""
+
+def _central_difference(func, point, h=1e-7):
+    """
+    Helper: Central difference approximation of func'(point).
+    """
+    return (func(point + h) - func(point - h)) / (2 * h)
+
+
+def direct_composite_derivative(f, g, x, h=1e-7):
+    """
+    Approximate the derivative of the composite f(g(x)) directly
+    using central difference on the full composite function.
+
+    Args:
+        f (callable): Outer function (takes float, returns float).
+        g (callable): Inner function (takes float, returns float).
+        x (float): Point at which to evaluate the derivative.
+        h (float, optional): Step size. Default 1e-7.
+
+    Returns:
+        float: Approximation of (f ∘ g)'(x).
+    """
+    def composite(t):
+        return f(g(t))
+    return _central_difference(composite, x, h)
+
+
+def chain_rule_derivative(f, g, x, h=1e-7):
+    """
+    Approximate the derivative of the composite f(g(x)) using the chain rule
+    with separate central difference approximations for f' and g'.
+
+    (f ∘ g)'(x) ≈ f'(g(x)) × g'(x)
+
+    Args:
+        f (callable): Outer function (takes float, returns float).
+        g (callable): Inner function (takes float, returns float).
+        x (float): Point at which to evaluate the derivative.
+        h (float, optional): Step size. Default 1e-7.
+
+    Returns:
+        float: Approximation of (f ∘ g)'(x) via the chain rule.
+    """
+    gx = g(x)
+    f_prime_at_gx = _central_difference(f, gx, h)
+    g_prime_at_x = _central_difference(g, x, h)
+    return f_prime_at_gx * g_prime_at_x

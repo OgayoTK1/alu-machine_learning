@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+"""
+11. Good grooming is integral and impeccable style is a must
+
+Mandatory task implementing the indefinite integral (antiderivative) of a
+polynomial represented as a list of coefficients.
+
+The input list poly represents the polynomial where:
+- poly[0] is the constant term (x^0)
+- poly[1] is the coefficient of x^1
+- ...
+- poly[n] is the coefficient of x^n
+
+The function computes the indefinite integral:
+∫ (a0 + a1 x + a2 x² + ... + an xⁿ) dx = C + a0 x + (a1/2) x² + ... + (an/(n+1)) x^(n+1)
+
+It returns a new list of coefficients (constant C first, then increasing powers).
+- Integers are kept as int when the division is exact; otherwise float.
+- Trailing zero coefficients are trimmed (but the constant term is always kept).
+- If the input is invalid, returns None.
+"""
+
+def poly_integral(poly, C=1):
+    """
+    Compute the indefinite integral of the polynomial represented by poly.
+
+    Args:
+        poly (list): List of numeric coefficients (int or float), lowest to highest power.
+        C (int or float, optional): Integration constant. Default is 1.
+
+    Returns:
+        list: Coefficients of the integral polynomial (trimmed, int/float as appropriate).
+        None: If poly is invalid (not a non-empty list of numbers) or C is not a number.
+    """
+    if not isinstance(poly, list) or len(poly) == 0:
+        return None
+    if not isinstance(C, (int, float)):
+        return None
+    for coef in poly:
+        if not isinstance(coef, (int, float)):
+            return None
+
+    integral = [C]
+    for power in range(len(poly)):
+        new_coef = poly[power] / (power + 1)
+        if isinstance(new_coef, float) and new_coef.is_integer():
+            new_coef = int(new_coef)
+        integral.append(new_coef)
+
+    # Trim trailing zero coefficients (keep at least the constant term)
+    while len(integral) > 1 and integral[-1] == 0:
+        integral.pop()
+
+    return integral

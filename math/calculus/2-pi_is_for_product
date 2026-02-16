@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+"""
+2. Pi is for Product
+
+Mandatory task demonstrating the product notation (Π).
+
+This module provides two functions to compute the product of consecutive
+integers from 'start' to 'end' (inclusive):
+
+- product_loop: Uses a for loop to directly simulate the Π product
+  (general case, handles empty products, inclusion of 0, and negatives).
+
+- product_formula: Uses the closed-form ratio of factorials
+  (efficient for start >= 1; falls back to loop for other cases).
+
+These illustrate how Π expresses factorials and related concepts:
+
+1. ∏_{k=1}^{m-1} k = (m-1)!
+2. ∏_{k=0}^{m} k = 0
+3. ∏_{k=1}^{m+1} k = (m+1)!
+4. ∏_{k=1}^{m} k = m!
+
+Note:
+- Empty product (start > end) returns 1 by convention.
+- Product including 0 returns 0.
+"""
+
+def _factorial(n):
+    """Helper function to compute n! for n >= 0."""
+    total = 1
+    for i in range(1, n + 1):
+        total *= i
+    return total
+
+
+def product_loop(start, end):
+    """
+    Compute the product of consecutive integers from start to end (inclusive)
+    using a for loop.
+
+    Args:
+        start (int): The starting integer of the product.
+        end (int): The ending integer of the product.
+
+    Returns:
+        int: The computed product (1 if empty range, 0 if 0 is included).
+    """
+    total = 1
+    for k in range(start, end + 1):
+        total *= k
+    return total
+
+
+def product_formula(start, end):
+    """
+    Compute the product of consecutive integers from start to end (inclusive)
+    using the factorial ratio when applicable.
+
+    Args:
+        start (int): The starting integer of the product.
+        end (int): The ending integer of the product.
+
+    Returns:
+        int: The computed product (1 if empty range, 0 if 0 is included).
+    """
+    if start > end:
+        return 1
+    if start <= 0 <= end:
+        return 0
+    if start < 1:
+        # Fall back to loop for cases not supported by factorial ratio
+        return product_loop(start, end)
+    # Safe to use factorial ratio (start >= 1, no zero in range)
+    return _factorial(end) // _factorial(start - 1)

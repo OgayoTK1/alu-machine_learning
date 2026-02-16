@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+"""
+4. Hello, derivatives!
+
+Mandatory task introducing the concept of derivatives in a computational context.
+
+The derivative f'(x) represents the instantaneous rate of change of f at x.
+Analytically, it is defined as:
+
+f'(x) = lim_{h→0} [f(x + h) - f(x)] / h
+
+In code, we approximate this limit numerically using finite differences.
+
+This module provides two approximation methods:
+
+- forward_difference: Simple forward difference O(h) accuracy
+- central_difference: Central difference O(h²) accuracy (more precise)
+
+These numerical methods are foundational in machine learning for approximating
+gradients when analytical derivatives are unavailable or complex.
+
+Common test cases (likely corresponding to the task's 4 items):
+1. Constant function      → derivative ≈ 0
+2. Linear function        → derivative ≈ slope
+3. Quadratic (e.g. x²)     → derivative ≈ 2x
+4. Higher degree or other → accurate approximation near exact
+"""
+
+def forward_difference(f, x, h=1e-5):
+    """
+    Approximate f'(x) using forward difference.
+
+    Formula: [f(x + h) - f(x)] / h
+
+    Args:
+        f (callable): Function to differentiate (takes float, returns float).
+        x (float): Point at which to evaluate the derivative.
+        h (float, optional): Step size. Default 1e-5 (good balance for most cases).
+
+    Returns:
+        float: Approximation of f'(x).
+    """
+    return (f(x + h) - f(x)) / h
+
+
+def central_difference(f, x, h=1e-7):
+    """
+    Approximate f'(x) using central difference (recommended).
+
+    Formula: [f(x + h) - f(x - h)] / (2 * h)
+
+    Args:
+        f (callable): Function to differentiate (takes float, returns float).
+        x (float): Point at which to evaluate the derivative.
+        h (float, optional): Step size. Default 1e-7 (higher accuracy).
+
+    Returns:
+        float: Approximation of f'(x).
+    """
+    return (f(x + h) - f(x - h)) / (2 * h)

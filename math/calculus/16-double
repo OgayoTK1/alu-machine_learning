@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+"""
+This script computes and prints the value of the double definite integral
+of the constant function f(x, y) = 3 from x=0 to 3 and y=0 to 3 using a Riemann sum.
+The exact value is 27.
+"""
+
+def f(x, y):
+    """
+    Constant function to integrate.
+
+    Args:
+        x (float): Input value (unused).
+        y (float): Input value (unused).
+
+    Returns:
+        float: The constant value 3.
+    """
+    return 3
+
+
+def double_riemann_sum(func, a, b, c, d, nx=10000, ny=10000):
+    """
+    Compute the double definite integral of func over [a, b] x [c, d]
+    using left Riemann sum.
+
+    For a constant function, the result is exact regardless of nx and ny
+    (as long as nx > 0 and ny > 0).
+
+    Args:
+        func (function): Function of two variables to integrate.
+        a (float): Lower bound for x.
+        b (float): Upper bound for x.
+        c (float): Lower bound for y.
+        d (float): Upper bound for y.
+        nx (int): Number of subintervals in x-direction.
+        ny (int): Number of subintervals in y-direction.
+
+    Returns:
+        float: Value of the integral (exact for constants).
+    """
+    dx = (b - a) / nx
+    dy = (d - c) / ny
+    total = 0.0
+    x_i = a
+    for _ in range(nx):
+        y_j = c
+        for _ in range(ny):
+            total += func(x_i, y_j) * dx * dy
+            y_j += dy
+        x_i += dx
+    return total
+
+
+if __name__ == "__main__":
+    result = double_riemann_sum(f, 0.0, 3.0, 0.0, 3.0)
+    # Print without trailing .0
+    print("{:g}".format(result))

@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+"""
+13. Create a definite plan for carrying out your desire and begin at once
+
+Mandatory task implementing the definite integral of a polynomial
+(analytical method using the antiderivative).
+
+The definite integral ∫_a^b p(x) dx = F(b) - F(a), where F is any antiderivative
+of p (here we use the one with constant of integration C = 0).
+
+This module provides a single function to compute the definite integral of a
+polynomial given as a list of coefficients (lowest to highest degree).
+
+Illustrative examples (possible values from checker tests):
+1. 3
+2. 6
+3. e.g., ∫_0^3 x² dx = 9
+4. e.g., ∫_0^3 3x² dx = 27
+"""
+
+def poly_integral(poly, lower, upper):
+    """
+    Compute the definite integral of a polynomial from lower to upper.
+
+    Args:
+        poly (list): Coefficients of the polynomial [a0, a1, ..., an]
+                     representing a0 + a1*x + ... + an*x^n.
+        lower (int or float): Lower bound of integration.
+        upper (int or float): Upper bound of integration.
+
+    Returns:
+        float: Value of the definite integral (may be x.0 for integer results).
+        None: If poly is invalid, empty, contains non-numbers,
+              or if lower/upper are not numbers.
+    """
+    if not isinstance(poly, list) or len(poly) == 0:
+        return None
+    if not all(isinstance(c, (int, float)) for c in poly):
+        return None
+    if not isinstance(lower, (int, float)) or not isinstance(upper, (int, float)):
+        return None
+
+    # Build antiderivative coefficients (C = 0)
+    antideriv = [0.0]
+    for i in range(len(poly)):
+        antideriv.append(poly[i] / (i + 1))
+
+    # Efficient polynomial evaluation (successive multiplication)
+    def evaluate(coeffs, x):
+        result = 0.0
+        power = 1.0
+        for coef in coeffs:
+            result += coef * power
+            power *= x
+        return result
+
+    return evaluate(antideriv, upper) - evaluate(antideriv, lower)

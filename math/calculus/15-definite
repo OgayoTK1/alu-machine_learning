@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""
+This script computes and prints the value of the definite integral
+of the constant function f(x) = 5 from 0 to 5 using a Riemann sum.
+The exact value is 25.
+"""
+
+def f(x):
+    """
+    Constant function to integrate.
+
+    Args:
+        x (float): Input value (unused for constant function).
+
+    Returns:
+        float: The constant value 5.
+    """
+    return 5
+
+
+def riemann_sum(func, a, b, n=100000):
+    """
+    Compute the definite integral of func from a to b using left Riemann sum.
+
+    For a constant function, the result is exact regardless of n (as long as n > 0).
+
+    Args:
+        func (function): Function to integrate.
+        a (float): Lower bound.
+        b (float): Upper bound.
+        n (int): Number of subintervals.
+
+    Returns:
+        float: Approximate (or exact for constants) value of the integral.
+    """
+    dx = (b - a) / n
+    total = 0.0
+    x_i = a
+    for _ in range(n):
+        total += func(x_i) * dx
+        x_i += dx
+    return total
+
+
+if __name__ == "__main__":
+    result = riemann_sum(f, 0.0, 5.0)
+    # Print without trailing .0
+    print("{:g}".format(result))
