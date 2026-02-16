@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+"""
+0. Sigma is for Sum
+
+Mandatory task demonstrating summation notation (sigma).
+
+This script computes the following required sums using:
+- A for loop (direct simulation of the sigma summation)
+- The closed-form arithmetic series formula: sum_{k=m}^{n} k = n(n+1)/2 - (m-1)m/2
+
+Required sums:
+1. 3 + 4 + 5
+2. 3 + 4
+3. 2 + 3 + 4 + 5
+4. 2 + 3 + 4
+"""
+
+def summation_loop(start, end):
+    """
+    Compute the sum of consecutive integers from start to end (inclusive)
+    using a for loop.
+
+    Args:
+        start (int): Starting integer of the sum.
+        end (int): Ending integer of the sum.
+
+    Returns:
+        int: The computed sum.
+    """
+    total = 0
+    for k in range(start, end + 1):
+        total += k
+    return total
+
+
+def summation_formula(start, end):
+    """
+    Compute the sum of consecutive integers from start to end (inclusive)
+    using the closed-form arithmetic series formula.
+
+    Args:
+        start (int): Starting integer of the sum.
+        end (int): Ending integer of the sum.
+
+    Returns:
+        int: The computed sum.
+    """
+    sum_to_end = end * (end + 1) // 2
+    sum_to_start_minus_one = (start - 1) * start // 2
+    return sum_to_end - sum_to_start_minus_one
+
+
+if __name__ == "__main__":
+    # List of required sums: (start, end, expanded form for display)
+    required_sums = [
+        (3, 5, "3 + 4 + 5"),
+        (3, 4, "3 + 4"),
+        (2, 5, "2 + 3 + 4 + 5"),
+        (2, 4, "2 + 3 + 4"),
+    ]
+
+    print("Sigma is for Sum")
+    print("")
+
+    for idx, (start, end, expanded) in enumerate(required_sums, 1):
+        loop_result = summation_loop(start, end)
+        formula_result = summation_formula(start, end)
+
+        print("{}. {}".format(idx, expanded))
+        print("   \u03A3_{{k={}}}^{{{}}} k".format(start, end))
+        print("   Loop method   : {}".format(loop_result))
+        print("   Formula method: {}".format(formula_result))
+        print("")
