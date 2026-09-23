@@ -19,6 +19,9 @@ class BidirectionalCell:
     public instance methods:
         def forward(self, h_prev, c_prev, x_t):
             performs forward propagation for one time step
+        def backward(self, h_next, x_t):
+            calculates the hidden state in backward direction for one time step
+
     """
     def __init__(self, i, h, o):
         """
@@ -63,3 +66,25 @@ class BidirectionalCell:
         h_next = np.tanh(np.matmul(h_x, self.Whf) + self.bhf)
 
         return h_next
+
+    def backward(self, h_next, x_t):
+        """
+        Calculates the hidden state in the backward direction for one time step
+
+        parameters:
+            h_next [numpy.ndarray of shape (m, h)]:
+                contains the next hidden state
+                m: the batch size for the data
+                h: dimensionality of hidden state
+            x_t [numpy.ndarray of shape (m, i)]:
+                contains data input for the cell
+                m: the batch size for the data
+                i: dimensionality of the data
+
+        returns:
+            h_prev: the previous hidden state
+        """
+        h_x = np.concatenate((h_next, x_t), axis=1)
+        h_prev = np.tanh(np.matmul(h_x, self.Whb) + self.bhb)
+
+        return h_prev
