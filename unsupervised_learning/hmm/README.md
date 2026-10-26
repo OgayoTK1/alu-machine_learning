@@ -1,0 +1,1 @@
+The HMM is a generative model that can be used to model sequences of events. The model is defined by a set of hidden states, a set of observable events, and a set of transition probabilities between the hidden states. The model is trained by estimating the transition probabilities from a set of training data, and then used to generate sequences of observable events.
